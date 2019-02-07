@@ -5,31 +5,42 @@ import Person from './Person/Person';
 class App extends Component {
     state = {
         persons: [
-            { name: 'Max', age: 28 },
-            { name: 'Manu', age: 29 },
-            { name: 'Stephanie', age: 26 },
+            { id: '23333', name: 'Max', age: 28 },
+            { id: '22232', name: 'Manu', age: 29 },
+            { id: '11111', name: 'Stephanie', age: 26 },
         ],
-        otherState: 'Some Other Values'
+        otherState: 'Some Other Values',
+        showPersons: false,
     }
 
-    switchNameHandler = (newName) => {
-        this.setState({
-            persons: [
-                { name: newName, age: 28 },
-                { name: 'Manu', age: 29 },
-                { name: 'Stephanie', age: 27 },
-            ]
-        });
+    deletePersonHandler = (personIndex) => {
+        // const persons = this.state.persons.slice(); // deep copy!
+        const persons = [...this.state.persons]; // spread operator
+        persons.splice(personIndex, 1);
+        this.setState({persons: persons});
     }
 
-    nameChangedHandler = (event) => {
+    nameChangedHandler = (event, id) => {
+        // get person index with given id
+        const personIndex = this.state.persons.findIndex(p => { return p.id === id });
+
+        // get copy of person information, update name
+        const person = { ...this.state.persons[personIndex] }
+        person.name = event.target.value;
+
+        // get copy of state's persons entry, update person at personIndex
+        const persons = [...this.state.persons];
+        persons[personIndex] = person;
+
+        // enforce state with copy of state's persons, i.e. persons
         this.setState({
-            persons: [
-                { name: 'Max', age: 28 },
-                { name: event.target.value, age: 29 },
-                { name: 'Stephanie', age: 26 },
-            ]
-        });
+            persons: persons
+        })
+    }
+
+    togglePersonHandler = () => {
+        const doesShow = this.state.showPersons;
+        this.setState({ showPersons: !doesShow });
     }
 
     render() {
@@ -42,25 +53,34 @@ class App extends Component {
             cursor: 'pointer'
         };
 
+        let persons = null;
+        if (this.state.showPersons) {
+            persons = (
+                <div>
+                    {this.state.persons.map((person, index)  => {
+                        return ( 
+                            <Person
+                                name={person.name}
+                                age={person.age}
+                                click={() => this.deletePersonHandler(index)}
+                                key={index}
+                                changed={(event) => this.nameChangedHandler(event, person.id)}
+                            />
+                        );
+                    })}
+                </div>
+            );
+        }
+
         return (
             <div className="App">
-                <h1>Hi, I am a React App</h1>
-                <p>This is really working!</p>
-                <button 
-                    style={style}
-                    onClick={() => this.switchNameHandler("Maximillian") }>Switch Name</button>
-                <Person 
-                    name={this.state.persons[0].name} 
-                    age={this.state.persons[0].age}/>
-                <Person 
-                    name={this.state.persons[1].name} 
-                    age={this.state.persons[1].age}
-                    click={this.switchNameHandler.bind(this, "Max!")}
-                    changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
-                <Person 
-                    name={this.state.persons[2].name} 
-                    age={this.state.persons[2].age}/>
-            </div>
+            <h1>Hi, I am a React App</h1>
+            <p>This is really working!</p>
+            <button 
+                style={style}
+                onClick={this.togglePersonHandler}>Toggle Persons</button>
+            {persons}
+        </div>
         );
     }
 };
