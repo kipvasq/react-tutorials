@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
     state = {
@@ -44,21 +45,9 @@ class App extends Component {
     }
 
     render() {
-        // inline style (hover is radium)
-        const style = {
-            backgroundColor: 'green',
-            color: 'white',
-            font: 'inherit',
-            border: '1x solid blue',
-            padding: '8px',
-            cursor: 'pointer',
-            ':hover': {
-                backgroundColor: 'lightgreen',
-                color: 'black'
-            }
-        };
-
         let persons = null;
+        let btnClass = '';
+
         if (this.state.showPersons) {
             persons = (
                 <div>
@@ -70,33 +59,29 @@ class App extends Component {
                                 click={() => this.deletePersonHandler(index)}
                                 key={index}
                                 changed={(event) => this.nameChangedHandler(event, person.id)}
-                            />
+                            />  
                         );
                     })}
                 </div>
             );
 
-            style.backgroundColor = 'red';
-            style[':hover'] = {
-                backgroundColor: 'salmon',
-                color: 'black'
-            };
+            btnClass = 'Red';
         }
 
-        const classes = [];
+        const assignedClasses = [];
         if (this.state.persons.length <= 2){
-            classes.push('red'); // classes = ['red']
+            assignedClasses.push('red'); // assignedClasses = ['red']
         } 
         if (this.state.persons.length <= 1){
-            classes.push('bold'); // classes = ['red', 'bold']
+            assignedClasses.push('bold'); // assignedClasses = ['red', 'bold']
         }
 
         return (
             <div className="App">
                 <h1>Hi, I am a React App</h1>
-                <p className={classes.join(' ')}> This is really working!</p>
+                <p className={assignedClasses.join(' ')}> This is really working!</p>
                 <button 
-                    style={style}
+                    className={btnClass}
                     onClick={this.togglePersonHandler}>Toggle Persons</button>
                 {persons}
             </div>

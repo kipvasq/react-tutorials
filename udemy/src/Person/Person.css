@@ -7,8 +7,8 @@
     text-align: center;
 }
 
-/* @media (mi-width: 500px) {
+@media (mi-width: 500px) {
     .Person {
         width: 450px;
     }
-} */
+}
