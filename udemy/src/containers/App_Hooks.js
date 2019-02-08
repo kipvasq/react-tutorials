@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; // hooks are 'use-' functions, to avoid class based components
 import './App.css';
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
 
 const app = props => {
     // state 1 to update persons
