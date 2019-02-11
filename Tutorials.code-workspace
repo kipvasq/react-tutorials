@@ -8,6 +8,9 @@
         },
         {
             "path": "http--01-starting-setup"
+        },
+        {
+            "path": "redux--01-start"
         }
     ],
     "settings": {}
