@@ -1,17 +1,16 @@
 {
 	"folders": [
         {
-            "path": "udemy"
+            "path": "/Users/juanvasquezderas/Desktop/Work/AgentConnect/AaaP/AAAP-Mobile"
         },
         {
             "path": "burger-builder"
         },
         {
-            "path": "http--01-starting-setup"
-        },
-        {
             "path": "redux--01-start"
         }
     ],
-    "settings": {}
+    "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib"
+    }
 }
